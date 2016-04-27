@@ -1,3 +1,0 @@
-# Cassady_CSCI2270_FinalProject
-
-My final project will be a variation on a classic text-based adventure game. Each room will contain a riddle or puzzle to be solved by the user. The puzzles will each be represented by a method within the "adventure" class. Additionally, the layout of the rooms will be stored as a graph and the "adventure" class will also contain methods for traversing it. One possible route that I am considering for the game is to give the player the task of finding a certain room and then implimenting a method that will give them directions regardless of where they currently are within the dungeon. I am working alone on this project. 
