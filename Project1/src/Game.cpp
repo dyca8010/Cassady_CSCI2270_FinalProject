@@ -14,26 +14,26 @@ Game::~Game()
 {
     //dtor
 }
-bool Game::checkChalice(){
+bool Game::checkChalice(){//true if player has completed room E for the first time
     return chalice;
 }
 
-bool Game::checkCrown(){
+bool Game::checkCrown(){//true if the player has completed room E and room C in order
     return crown;
 }
 
-void Game::setChalice(){
+void Game::setChalice(){//visited E for first time
     chalice = true;
 }
 
-void Game::setCrown(){
+void Game::setCrown(){//visited E and then visited C
     crown = true;
 }
 
 void Game::room1(){//Room A
     updateCurrentRoom("A");
     cout<<endl;
-    if(currentRoom->visited == false){
+    if(currentRoom->visited == false){//If the player has not been to this room before, play the riddle
         cout<<"You walk through a narrow alley and emerge into the first chamber of the maze."<<endl;
         cout<<"Around you, the mossy granite walls loom ominously, dark presences just beyond"<<endl;
         cout<<"the meager, unsteady light of your torch."<<endl;
@@ -53,23 +53,23 @@ void Game::room1(){//Room A
         cout<<"With a satisfying series of clicks, the doors swing open."<<endl;
         currentRoom->visited = true;
     }
-    else{
+    else{//the player has been to the room before, avoid playing through the riddle again
         cout<<"You re-enter room A."<<endl;
         cout<<endl;
     }
-    cout<<"Choose an adjacent room to travel to:"<<endl;
+    cout<<"Choose an adjacent room to travel to:"<<endl;//find the next room to go to
     for(int i = 0; i < currentRoom->adj.size();i++){
         cout<<currentRoom->adj[i].v->name<<endl;
     }
     string a;
     getline(cin,a);
     transform(a.begin(), a.end(), a.begin(), ::toupper);
-    while(a != "I" and a != "B" and a != "E"){
+    while(a != "I" and a != "B" and a != "E"){//input verification
         cout<<"Please enter a valid room choice"<<endl;
         getline(cin,a);
         transform(a.begin(), a.end(), a.begin(), ::tolower);
     }
-    updateCurrentRoom(a);
+    updateCurrentRoom(a);//move to the selected room
 }
 
 void Game::room2(){//Room B
@@ -114,7 +114,7 @@ void Game::room2(){//Room B
 }
 void Game::room3(){//Room C
     cout<<endl;
-    if(currentRoom->visited == false and chalice == false){
+    if(currentRoom->visited == false and chalice == false){//if the player has not been to room E yet
         cout<<"You follow a gently sloping hallway for about 50 feet, then make a sharp"<<endl;
         cout<<"left turn into the room. As you enter, the door slams shut behind you."<<endl;
         cout<<"Inside the room, there is a small gold crown on an oak table."<<endl;
@@ -136,7 +136,7 @@ void Game::room3(){//Room C
         cout<<"The door swings open silently, allowing you to pass."<<endl;
         currentRoom->visited = true;
     }
-    else if(chalice == true and currentRoom->visited == false){
+    else if(chalice == true and currentRoom->visited == false){//if the player has been to E but not C
         cout<<"You follow a gently sloping hallway for about 50 feet, then make a sharp"<<endl;
         cout<<"left turn into the room. As you enter, the door slams shut behind you."<<endl;
         cout<<"A small gold crown sits on the table at the center of the room."<<endl;
@@ -161,20 +161,20 @@ void Game::room3(){//Room C
         currentRoom->visited = true;
         setCrown();
     }
-    else if(chalice == false and currentRoom->visited == true){
+    else if(chalice == false and currentRoom->visited == true){//If the player has cleared the riddle but still does not have the chalice
         cout<<"You return to room C. The only door leads back to room B"<<endl;
         cout<<"You must collect the chalice before you can collect the crown,"<<endl;
         cout<<"Please proceed to room E to collect the chalice"<<endl;
         cout<<endl;
     }
-    else if(chalice == true and currentRoom->visited == true and crown == false){
+    else if(chalice == true and currentRoom->visited == true and crown == false){//if the player has cleared C, then collected the chalice
         cout<<"You return to room C and retrieve the crown. Now you must"<<endl;
         cout<<"locate the final treasure, a fist sized ruby known as the"<<endl;
         cout<<"Heartstone, located in room H. "<<endl;
         setCrown();
     }
     else{
-        cout<<"You return to room C. It is a dead end."<<endl;
+        cout<<"You return to room C. It is a dead end."<<endl;//C and E have both been fully cleared
         cout<<endl;
     }
     updateCurrentRoom("B");
@@ -346,7 +346,7 @@ void Game::room7(){//room G
 }
 
 void Game::room8(){//Room H
-    if(crown == false){
+    if(crown == false){//The player can only have the crown if they have fully cleared C, so no challenge if they have not
         cout<<"The room before you is empty and completely featureless."<<endl;
         cout<<"Doors on either side stand open."<<endl;
         cout<<"Choose an adjacent room to travel to:"<<endl;
@@ -363,7 +363,7 @@ void Game::room8(){//Room H
         }
         updateCurrentRoom(a);
     }
-    else{
+    else{//this is the boss encounter, once the player has the first two treasures
         cout<<endl;
         cout<<"The same foreboding figure from the chalice room now stands before"<<endl;
         cout<< "you, no longer an image, but a being of flesh and blood. He turns"<<endl;
@@ -425,16 +425,16 @@ void Game::room9(){//Room I
 }
 
 void Game::addRoom(string n,string riddle, string answer1, string answer2, string answer3){
-    room v;
-    v.name = n;
-    v.riddle = riddle;
-    v.answer1 = answer1;
+    room v;//this method adds a new room to the maze
+    v.name = n;//name of the room, A-I in the main function
+    v.riddle = riddle;//the question that will be asked the first time the player enters the room
+    v.answer1 = answer1;//possible answeres
     v.answer2 = answer2;
     v.answer3 = answer3;
-    rooms.push_back(v);
+    rooms.push_back(v);//add the room to the vector of rooms
 }
 
-void Game::addHallway(string a, string b){
+void Game::addHallway(string a, string b){//add a pointer between two rooms
     for(int i = 0; i < rooms.size(); i++){
         if(rooms[i].name == a){
             for(int j = 0; j < rooms.size(); j++){
@@ -457,11 +457,11 @@ void Game::addHallway(string a, string b){
     }
 }
 
-room * Game::getCurrentRoom(){
+room * Game::getCurrentRoom(){//return the room that the player is currently in, useful for accessing riddles and answers in game
     return currentRoom;
 }
 
-void Game::updateCurrentRoom(string n){
+void Game::updateCurrentRoom(string n){//change the player's current room
     for (int i = 0; i < 9; i++){
         if(rooms[i].name == n){
             currentRoom = &rooms[i];
