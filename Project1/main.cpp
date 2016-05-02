@@ -9,13 +9,13 @@ int main()
 {
     bool run = true;
     while (run){
-        cout<<"======Main Menu======"<<endl;
+        cout<<"======Main Menu======"<<endl; //basic menu option
         cout<<"1. Tutorial"<<endl;
         cout<<"2. Enter the Maze!"<<endl;
         cout<<"3. Quit"<<endl;
         string a;
         getline(cin,a);
-        if(a == "1"){
+        if(a == "1"){ //tutorial, more for my benifit that the players
             string answer;
             bool go = true;
             cout<<"Welcome to RiddleQuest, traveler."<<endl;
@@ -28,7 +28,7 @@ int main()
             cout<<"rare treasures hidden within the maze. Once you clear a room, the doors will"<<endl;
             cout<<"remain open. Let's practice a riddle:"<<endl;
             cout<<endl;
-            while(go){
+            while(go){//while the correct answer has not been entered, keep asking the question
                 cout<<"What word contains all 26 letters?"<<endl;
                 getline(cin,answer);
                 transform(answer.begin(), answer.end(), answer.begin(), ::tolower);
@@ -44,8 +44,8 @@ int main()
                 }
             }
         }
-        else if(a == "2"){
-            Game g;
+        else if(a == "2"){//this option starts the actual game
+            Game g;//create instance of the game. The following lines create the maze, with each room containing a riddle and hallways to other rooms
             g.addRoom("A","Poor people have it, rich people need it, and if you eat it you die. What is it?","nothing","nada","it's nothing");
             g.addRoom("B", "Paul is six feet tall, works at a butcher's shop, and wears size 9 shoes. What  does he weigh?","animal meat","meat","he weighs meat");
             g.addRoom("C","What has many keys but cannot open a single door?","computer","piano","keyboard");
@@ -65,7 +65,7 @@ int main()
             g.addHallway("E","G");
             g.addHallway("G","H");
             g.addHallway("F","H");
-            g.updateCurrentRoom("A");
+            g.updateCurrentRoom("A");//start the game in room A
             cout<<"Welcome, adventurer. Contained within the maze are three treasures which"<<endl;
             cout<<"you must secure by successfully navigating the maze, a chalice, a crown."<<endl;
             cout<<"and the fabled Heartstone, a magnificent ruby the size of a fist."<<endl;
@@ -79,7 +79,7 @@ int main()
             cout<<endl;
             cout<<"You begin in room A"<<endl;
             cout<<endl;
-            while(g.getCurrentRoom()->name != "E"){
+            while(g.getCurrentRoom()->name != "E"){//this is the first part of the dungeon, where the player must navigate to room E
                 if(g.getCurrentRoom()->name == "A"){
                     g.room1();
                 }
@@ -105,10 +105,10 @@ int main()
                     g.room9();
                 }
             }
-            cout<<"You enter room E. "<<endl;
-            g.room5();
-            g.setChalice();
-        while(g.getCurrentRoom()->name != "C"){
+            cout<<"You enter room E. "<<endl; //once the player reaches E
+            g.room5();//play through the riddle in E
+            g.setChalice(); //the player now has the chalice
+        while(g.getCurrentRoom()->name != "C"){//the player must now travel to room C to get the crown
                 if(g.getCurrentRoom()->name == "A"){
                     g.room1();
                 }
@@ -134,10 +134,10 @@ int main()
                     g.room9();
                 }
             }
-            g.room3();
-            g.setCrown();
+            g.room3();//play room C
+            g.setCrown();//the player has the crown
             g.updateCurrentRoom("B");
-            while(g.getCurrentRoom()->name != "H" or g.checkCrown() == false){
+            while(g.getCurrentRoom()->name != "H" or g.checkCrown() == false){//once the player is in H and has the crown, exit the maze and play the boss encounter
                     if(g.getCurrentRoom()->name == "A"){
                         g.room1();
                     }
@@ -164,7 +164,7 @@ int main()
                     }
                 }
                 cout<<"You enter the final room. "<<endl;
-                g.room8();
+                g.room8();//boss encounter
                 cout<<endl;
                 cout<<endl;
                 cout<<endl;
@@ -178,10 +178,10 @@ int main()
                     run = false;
                 }
         }
-        else if(a == "3"){
+        else if(a == "3"){//quit the game
             run = false;
         }
-        else{
+        else{//input verification
             cout<<"please enter a valid choice"<<endl;
         }
     }
