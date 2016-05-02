@@ -17,7 +17,7 @@ Group Member:
 Dylan Cassady
 
 Contributors:
-
+MANA624
 
 Issues/bugs:
 The code is not currently commented. I will aim to add comments to help those editing it later today (4/27/16).
